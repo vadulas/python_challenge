@@ -2,7 +2,6 @@
 import csv
 import os
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Function reads the election_data.csv file and anlyzes the votes cast to find the winner 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -45,11 +44,47 @@ def analyze_poll_data():
 Function to print the final report
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 def print_report(total_vote_count, votes_by_candidates):
-    print(total_vote_count)
-    print(votes_by_candidates)
+
+    #get the list of votes by candidates from the dictionary
+    votes_list = list(votes_by_candidates.values())
+    candidates_list = list(votes_by_candidates.keys())
+
+    #determine the index of the winner in the election
+    winner_index  = votes_list.index(max(votes_list))
+    winner  = candidates_list[winner_index]
 
 
+    #Format report output string
+    seperator = "-" * 30
+    new_line_character = "\n"
+    output_header = f"Election Results{new_line_character}{seperator}{new_line_character} Total Votes: {total_vote_count}{new_line_character}{seperator}{new_line_character}"
+    output_footer = f"{seperator}{new_line_character}Winner: {winner}{new_line_character}{seperator}"
+    final_report = output_header
 
+    for candidate in votes_by_candidates:
+        vote_count = votes_by_candidates[candidate]
+
+        #calculate percentage of vote for teh candidate
+        percentage_vote_count = round((vote_count/total_vote_count) * 100, 2)
+
+        #format candidate line
+        output_candidate_line = f"{candidate}: {percentage_vote_count}% ({vote_count}){new_line_character}"
+        final_report = final_report + output_candidate_line
+
+    final_report = final_report + output_footer
+
+    #print to the console
+    print(final_report)
+
+    #print to the output file
+    output_file  = open("Analysis/analysis.txt", "w")
+    output_file.write(final_report)
+    output_file.close()
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Function to update the vote count for the candidates
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 def update_vote_count(candidate, candidate_dict):
 
     vote_count = 1 #One vote for teh candidate
