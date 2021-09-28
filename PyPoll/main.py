@@ -19,7 +19,7 @@ def analyze_poll_data():
             csv_reader = csv.reader(election_data_file, delimiter=",")
 
             #skipt the header row
-            next(csv_reader)
+            header = next(csv_reader)
 
             #Read through the file to capture the voter information
             for row in csv_reader:

@@ -28,7 +28,7 @@ def analyze_budget():
             csv_reader = csv.reader(budget_data_file, delimiter=",")
             
             #As the file contains a header, skip the first row
-            next(csv_reader)
+            header = next(csv_reader)
 
             previous_month_profit_loss_amount = 0
             
